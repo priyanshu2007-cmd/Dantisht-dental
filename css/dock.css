@@ -1,0 +1,125 @@
+/* ═══ Magnification Dock ═══ */
+.mag-dock {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s;
+}
+.mag-dock.dock-hidden {
+  transform: translateX(-50%) translateY(120%);
+  opacity: 0;
+  pointer-events: none;
+}
+.mag-dock-panel {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 16px 10px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.mag-dock-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  position: relative;
+  transition: box-shadow 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+.mag-dock-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  background: #f5f5f5;
+}
+.mag-dock-item[style*="--item-accent"] {
+  background: var(--item-accent);
+  border-color: transparent;
+}
+.mag-dock-item[style*="--item-accent"] .mag-dock-icon {
+  color: #fff;
+}
+.mag-dock-item[style*="--item-accent"]:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.mag-dock-icon {
+  font-size: 20px;
+  color: #0b2a3d;
+  pointer-events: none;
+  line-height: 1;
+}
+.mag-dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background: #0b2a3d;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.mag-dock-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #0b2a3d;
+}
+.mag-dock-item:hover .mag-dock-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+.mag-dock-item.dock-clicked {
+  animation: dockPop 0.3s ease;
+}
+@keyframes dockPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* Hide old FABs if any remain */
+.fab-container,
+.fab-call {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .mag-dock-panel {
+    gap: 5px;
+    padding: 6px 10px 8px;
+    border-radius: 18px;
+  }
+  .mag-dock {
+    bottom: 0.5rem;
+  }
+}
+@media (max-width: 420px) {
+  .mag-dock-panel {
+    gap: 3px;
+    padding: 5px 8px 6px;
+  }
+}
